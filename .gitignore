@@ -1,0 +1,22 @@
+# Dataset — large, not tracked
+datasetscript/
+
+# Extracted CNN features — large numpy arrays
+features/
+
+# Trained models — large binary files
+models/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+
+# Conda / venv
+.env
+.venv/
+env/
