@@ -30,15 +30,20 @@ Dataset Splitting ← Data Augmentation ← EDA             XGBoost / LightGBM /
 
 | Script | Folder | Classes | Images | Notes |
 |--------|--------|---------|--------|-------|
-| Bali   | `Bali/letter/` | 18 | 4,493 | JPEG, ~299×265 |
-| Batak  | `Batak/` (direct) | 19 | 1,900 | PNG 100×100 |
-| Jawa   | `Jawa/all_class/` | 20 | 9,995 | Mixed JPG/PNG |
-| Jawi   | `Jawi/letter/` | 32 | 1,600 | PNG |
-| Kawi   | `Kawi/` (direct) | 31 | 6,246 | PNG 100×100 |
-| Lampung| `Lampung/` (direct) | 20 | 4,996 | PNG, augmented |
-| Lontara| `Lontara/` (direct) | 23 | 2,299 | PNG 100×100 RGBA |
-| Pallawa| `Pallawa/` (direct) | 33 | 3,960 | PNG, augmented |
-| Sunda  | `Sunda/consonant/` + `Sunda/vowel/` | 32 | 20,224 | PNG, largest |
+| Bali   | `Bali/` | 18 | 4,493 | JPEG |
+| Batak  | `Batak/` | 19 | 1,900 | PNG 100×100 |
+| Jawa   | `Jawa/` | 20 | 9,995 | PNG (filenames sanitised) |
+| Jawi   | `Jawi/` | 32 | 1,600 | PNG |
+| Kawi   | `Kawi/` | 31 | 6,246 | PNG (diacritic folders → ASCII) |
+| Lampung| `Lampung/` | 20 | 4,996 | PNG (filenames sanitised) |
+| Lontara| `Lontara/` | 23 | 2,299 | PNG 100×100 RGBA |
+| Pallawa| `Pallawa/` | 33 | 3,960 | PNG (diacritic folders → ASCII) |
+| Sunda  | `Sunda/` | 32 | 20,224 | PNG (filenames sanitised, é→etaling) |
+
+**Dataset sanitised by `clean_dataset.py`** — all folder and file names are ASCII-safe:
+- `name (N).ext` → `name_N.ext` (35,215 files: Jawa, Lampung, Sunda)
+- `é (N).png` / `é_N.png` → `etaling_N.png` (623 files: Sunda)
+- Unicode diacritic folders → ASCII: `ḍa`→`dda`, `ṭa`→`tta`, `ṣa`→`ssa`, `śa`→`sha`, `ṅa`→`nga`, `ṇa`→`nna`, `ña`→`nya`, `ḍha`→`ddha`, `ṭha`→`ttha`, `é`→`etaling`
 
 **Label format:** `{Script}_{classname}` → 228 unique labels total  
 **Class imbalance:** Sunda (36.3%) vs Jawi (2.87%) — requires cost-sensitive weighting
@@ -70,6 +75,11 @@ Dataset Splitting ← Data Augmentation ← EDA             XGBoost / LightGBM /
 - **Platform:** macOS M1 (Apple Silicon) — use `torch.device("mps")` for GPU acceleration
 - **Conda env:** `ai_core`
 - **Notebook:** `pipeline_hcr_nusantara.ipynb`
+
+## Pre-upload Steps (Kaggle)
+1. Run `python3 clean_dataset.py` once — already done, idempotent if re-run.
+2. Zip `datasetscript/` and upload as a Kaggle Dataset.
+3. In the notebook, set Accelerator → **GPU T4 x2**, Internet → **On**.
 
 ## Output Artifacts
 - `features_train.npy`, `features_test.npy`, `labels_train.npy`, `labels_test.npy` — cached features
