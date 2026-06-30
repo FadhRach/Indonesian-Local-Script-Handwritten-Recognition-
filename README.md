@@ -24,7 +24,6 @@ Gap penelitian yang diisi:
 |------|-----|
 | Dian Rakhmawati Lestari | 2802539085 |
 | Fadhlan Nur Rachman | 2802491690 |
-| Bintang Nur Fadhlillah | 2802536083 |
 
 ---
 
